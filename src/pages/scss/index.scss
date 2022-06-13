@@ -1,0 +1,27 @@
+// div {
+//   border: 3px solid black;
+// }
+
+.main-frame {
+  width: 90vw;
+  height: 90vh;
+  overflow: hidden;
+  display: flex;
+  .user-panel {
+    display: flex;
+    flex-direction: column;
+    border-right: 3px solid black;
+  }
+  .main-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    .log {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column-reverse;
+      .log-item {
+      }
+    }
+  }
+}
