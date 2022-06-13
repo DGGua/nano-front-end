@@ -1,6 +1,44 @@
+import { useState } from "react";
+import { UserBag } from "../components/userBag/userBag";
 import UserModule from "../components/userModule/userModule";
 import "./scss/index.scss";
 export default function IndexPage() {
+  const [items, setItems] = useState<string[]>([
+    "item1",
+    "item2",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item3",
+    "item4",
+    "item5",
+    "item6",
+  ]);
   return (
     <div className="main-frame">
       <div className="user-panel">
@@ -9,7 +47,7 @@ export default function IndexPage() {
         </div>
         <div className="user-name"> NickName</div>
         <UserModule />
-        <div className="user-bag">dididada</div>
+        <UserBag userItems={items} />
       </div>
       <div className="main-panel">
         <div className="log">
