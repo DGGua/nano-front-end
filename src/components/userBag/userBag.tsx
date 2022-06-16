@@ -4,6 +4,7 @@ import {
   HTMLAttributes,
   useState,
 } from "react";
+import { useLog } from "../../hooks/useLog";
 import usePlayerData from "../../hooks/usePlayerData";
 import { gameService } from "../../services/gameService";
 import { Item, PlayerInfo } from "../../types/gameType";
@@ -31,6 +32,7 @@ function ItemComp(props: {
 }
 
 export function UserBag() {
+  const { addLog } = useLog();
   const { playerInfo, updatePlayerInfo } = usePlayerData();
   const {
     bearing_capacity: capacity,
@@ -60,7 +62,11 @@ export function UserBag() {
   }
   function dropItem() {
     if (chosenItemIndex === undefined) return;
-    gameService.drop(userItems[chosenItemIndex].id).then(updatePlayerInfo);
+    const item = userItems[chosenItemIndex];
+    gameService.drop(userItems[chosenItemIndex].id).then(() => {
+      updatePlayerInfo();
+      addLog(`你丢下了 ${item.name}`);
+    });
   }
   return (
     <>

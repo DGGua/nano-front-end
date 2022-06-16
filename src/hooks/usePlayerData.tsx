@@ -11,11 +11,11 @@ export default function usePlayerData() {
   });
   useEffect(() => updatePlayerInfo, []);
 
-  function updatePlayerInfo() {
+  const updatePlayerInfo = () => {
     gameService.curPlayerInfo().then((res) => {
       setPlayerInfo(res.data.data);
     });
-  }
+  };
   return {
     playerInfo,
     updatePlayerInfo,
