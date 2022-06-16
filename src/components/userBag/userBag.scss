@@ -1,5 +1,11 @@
 .bag-list {
   overflow: auto;
+  .bag-item {
+    &.chosen {
+      background-color: black;
+      color: white;
+    }
+  }
 }
 .toast {
   position: absolute;

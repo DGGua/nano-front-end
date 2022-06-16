@@ -1,23 +1,38 @@
 import { useState } from "react";
+import { gameService } from "../../services/gameService";
+import { Item } from "../../types/itemType";
 import "./userBag.scss";
 
 type UserBagProps = {
-  userItems: string[];
+  userItems: Item[];
+  refreshPlayer: () => void;
 };
 export function UserBag(props: UserBagProps) {
-  const { userItems } = props;
+  const { userItems, refreshPlayer } = props;
   const [x, setX] = useState<string>("");
   const [y, setY] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
   const [showText, setShowText] = useState("");
+  const [chosenItemIndex, setChosenItemIndex] = useState<number>();
   function mouseEnter(
     event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
     index: number
   ) {
-    setX(event.clientX + "px");
-    setY(event.clientY + "px");
+    setX(event.clientX + 5 + "px");
+    setY(event.clientY + 5 + "px");
     setShow(true);
-    setShowText(userItems[index]);
+    setShowText(userItems[index].name);
+  }
+
+  function useItem() {
+    if (!chosenItemIndex) return;
+    const item = userItems[chosenItemIndex];
+    if (!item.available) return;
+    gameService.useItem(item.id).then(refreshPlayer);
+  }
+  function dropItem() {
+    if (!chosenItemIndex) return;
+    gameService.drop(userItems[chosenItemIndex].id).then(refreshPlayer);
   }
   return (
     <>
@@ -25,15 +40,26 @@ export function UserBag(props: UserBagProps) {
         {userItems.map((item, index) => {
           return (
             <p
+              className={`bag-item ${
+                index === chosenItemIndex ? "chosen" : ""
+              }`}
+              onClick={() => {
+                setChosenItemIndex(index);
+              }}
               onMouseEnter={(event) => mouseEnter(event, index)}
               onMouseLeave={() => {
                 setShow(false);
               }}
             >
-              {item}
+              {item.name}
             </p>
           );
         })}
+      </div>
+      <div className="bag-buttons">
+        <div>总重量 剩余重量</div>
+        <button onClick={useItem}>使用</button>
+        <button onClick={dropItem}>丢下</button>
       </div>
       <div
         className="toast"
