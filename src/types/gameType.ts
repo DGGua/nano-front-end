@@ -10,3 +10,11 @@ export type PlayerInfo = {
   bearing_capacity: number;
   cur_weight: number;
 };
+export type RoomInfo = {
+  id: string;
+  name: string;
+  description: string;
+  event: string;
+  directions: Record<string, string>;
+  roomItems: Item[];
+};
