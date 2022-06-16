@@ -21,7 +21,7 @@ export function UserBag(props: UserBagProps) {
   }
   return (
     <>
-      <div className="bag-list">
+      <div className="bag-list" onScroll={() => setShow(false)}>
         {userItems.map((item, index) => {
           return (
             <p
