@@ -1,4 +1,4 @@
-import { METHODS } from "http";
+import { Item, PlayerInfo } from "../types/itemType";
 import { requestType } from "../types/requestType";
 import { globalRequest } from "./globalService";
 
@@ -11,29 +11,12 @@ export const gameService = {
         description: string;
         event: string;
         directions: Record<string, string>;
-        roomItems: Array<{
-          id: number;
-          name: string;
-          weight: number;
-          available: boolean;
-        }>;
+        roomItems: Item[];
       }>
     >({ method: "GET", url: "/player/curRoomInfo" });
   },
   curPlayerInfo: async () => {
-    return await globalRequest<
-      requestType<{
-        playerId: string;
-        userItems: Array<{
-          id: number;
-          name: string;
-          weight: number;
-          available: boolean;
-        }>;
-        bearing_capacity: number;
-        cur_weight: number;
-      }>
-    >({
+    return await globalRequest<requestType<PlayerInfo>>({
       method: "GET",
       url: "/player/playerInfo",
     });
@@ -46,7 +29,7 @@ export const gameService = {
         describe: string;
         event: boolean;
         directions: Record<string, string>;
-        roomItems: Array<{ id: number; name: string; weight: number }>;
+        roomItems: Item[];
       }>
     >({ method: "GET", url: "/player/move", params: { direction } });
   },
@@ -58,7 +41,7 @@ export const gameService = {
         describe: string;
         event: boolean;
         directions: Record<string, string>;
-        roomItems: Array<{ id: number; name: string; weight: number }>;
+        roomItems: Item[];
       }>
     >({ method: "GET", url: "/player/back", params: { quantity } });
   },
