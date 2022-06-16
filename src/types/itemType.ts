@@ -4,3 +4,9 @@ export type Item = {
   weight: number;
   available?: boolean;
 };
+export type PlayerInfo = {
+  playerId: string;
+  userItems: Item[];
+  bearing_capacity: number;
+  cur_weight: number;
+};

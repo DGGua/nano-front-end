@@ -1,16 +1,23 @@
+import { platform } from "os";
 import { useEffect, useState } from "react";
 import { UserBag } from "../components/userBag/userBag";
 import UserModule from "../components/userModule/userModule";
 import { gameService } from "../services/gameService";
-import { Item } from "../types/itemType";
+import { Item, PlayerInfo } from "../types/itemType";
 import "./scss/index.scss";
 export default function IndexPage() {
   const [items, setItems] = useState<Item[]>([]);
+  const [playerInfo, setPlayerInfo] = useState<PlayerInfo>({
+    playerId: "",
+    cur_weight: 0,
+    bearing_capacity: 0,
+    userItems: [],
+  });
   useEffect(refreshPlayer, []);
 
   function refreshPlayer() {
-    gameService.curPlayerInfo().then((info) => {
-      setItems(info.data.data.userItems);
+    gameService.curPlayerInfo().then((res) => {
+      setPlayerInfo(res.data.data);
     });
   }
 
@@ -22,7 +29,7 @@ export default function IndexPage() {
         </div>
         <div className="user-name"> NickName</div>
         <UserModule />
-        <UserBag userItems={items} refreshPlayer={refreshPlayer} />
+        <UserBag playerInfo={playerInfo} refreshPlayer={refreshPlayer} />
       </div>
       <div className="main-panel">
         <div className="log">

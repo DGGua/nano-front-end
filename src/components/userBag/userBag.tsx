@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { gameService } from "../../services/gameService";
-import { Item } from "../../types/itemType";
+import { Item, PlayerInfo } from "../../types/itemType";
 import "./userBag.scss";
 
 type UserBagProps = {
-  userItems: Item[];
+  playerInfo: PlayerInfo;
   refreshPlayer: () => void;
 };
 export function UserBag(props: UserBagProps) {
-  const { userItems, refreshPlayer } = props;
+  const { playerInfo, refreshPlayer } = props;
+  const {
+    bearing_capacity: capacity,
+    cur_weight: weight,
+    userItems,
+  } = playerInfo;
   const [x, setX] = useState<string>("");
   const [y, setY] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
@@ -57,7 +62,9 @@ export function UserBag(props: UserBagProps) {
         })}
       </div>
       <div className="bag-buttons">
-        <div>总重量 剩余重量</div>
+        <div>
+          最大重量：{capacity} 当前重量：{weight}
+        </div>
         <button onClick={useItem}>使用</button>
         <button onClick={dropItem}>丢下</button>
       </div>
