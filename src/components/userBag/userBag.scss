@@ -1,6 +1,9 @@
 .bag-list {
   overflow: auto;
+
   .bag-item {
+    display: flex;
+    justify-content: space-between;
     &.chosen {
       background-color: black;
       color: white;

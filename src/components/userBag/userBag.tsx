@@ -1,7 +1,33 @@
-import { useState } from "react";
+import {
+  DetailedHTMLProps,
+  DOMAttributes,
+  HTMLAttributes,
+  useState,
+} from "react";
 import { gameService } from "../../services/gameService";
 import { Item, PlayerInfo } from "../../types/itemType";
 import "./userBag.scss";
+
+function ItemComp(props: {
+  item: Item;
+  className: string;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+  onMouseEnter: React.MouseEventHandler<HTMLDivElement>;
+  onMouseLeave: React.MouseEventHandler<HTMLDivElement>;
+}) {
+  const { item, className, onClick, onMouseEnter, onMouseLeave } = props;
+  return (
+    <div
+      className={"bag-item " + className}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      <span>{item.name}</span>
+      <span>{`重量：${item.weight}`}</span>
+    </div>
+  );
+}
 
 type UserBagProps = {
   playerInfo: PlayerInfo;
@@ -41,13 +67,19 @@ export function UserBag(props: UserBagProps) {
   }
   return (
     <>
+      <div className="bag-buttons">
+        <button onClick={useItem}>使用</button>
+        <button onClick={dropItem}>丢下</button>
+        <div>
+          最大重量：{capacity} 当前重量：{weight}
+        </div>
+      </div>
       <div className="bag-list" onScroll={() => setShow(false)}>
         {userItems.map((item, index) => {
           return (
-            <p
-              className={`bag-item ${
-                index === chosenItemIndex ? "chosen" : ""
-              }`}
+            <ItemComp
+              item={item}
+              className={`${index === chosenItemIndex ? "chosen" : ""}`}
               onClick={() => {
                 setChosenItemIndex(index);
               }}
@@ -55,19 +87,11 @@ export function UserBag(props: UserBagProps) {
               onMouseLeave={() => {
                 setShow(false);
               }}
-            >
-              {item.name}
-            </p>
+            ></ItemComp>
           );
         })}
       </div>
-      <div className="bag-buttons">
-        <div>
-          最大重量：{capacity} 当前重量：{weight}
-        </div>
-        <button onClick={useItem}>使用</button>
-        <button onClick={dropItem}>丢下</button>
-      </div>
+
       <div
         className="toast"
         style={{
