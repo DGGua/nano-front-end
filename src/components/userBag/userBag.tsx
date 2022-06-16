@@ -6,7 +6,7 @@ import {
 } from "react";
 import usePlayerData from "../../hooks/usePlayerData";
 import { gameService } from "../../services/gameService";
-import { Item, PlayerInfo } from "../../types/itemType";
+import { Item, PlayerInfo } from "../../types/gameType";
 import "./userBag.scss";
 
 function ItemComp(props: {

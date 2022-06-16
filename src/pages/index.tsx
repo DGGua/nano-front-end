@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { UserBag } from "../components/userBag/userBag";
 import UserModule from "../components/userModule/userModule";
 import { gameService } from "../services/gameService";
-import { Item, PlayerInfo } from "../types/itemType";
+import { Item, PlayerInfo } from "../types/gameType";
 import "./scss/index.scss";
 export default function IndexPage() {
   return (

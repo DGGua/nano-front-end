@@ -1,19 +1,13 @@
-import { Item, PlayerInfo } from "../types/itemType";
+import { Item, PlayerInfo, RoomInfo } from "../types/gameType";
 import { requestType } from "../types/requestType";
 import { globalRequest } from "./globalService";
 
 export const gameService = {
   curRoomInfo: async () => {
-    return await globalRequest<
-      requestType<{
-        id: string;
-        name: string;
-        description: string;
-        event: string;
-        directions: Record<string, string>;
-        roomItems: Item[];
-      }>
-    >({ method: "GET", url: "/player/curRoomInfo" });
+    return await globalRequest<requestType<RoomInfo>>({
+      method: "GET",
+      url: "/player/curRoomInfo",
+    });
   },
   curPlayerInfo: async () => {
     return await globalRequest<requestType<PlayerInfo>>({
