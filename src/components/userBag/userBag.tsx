@@ -25,13 +25,13 @@ export function UserBag(props: UserBagProps) {
   }
 
   function useItem() {
-    if (!chosenItemIndex) return;
+    if (chosenItemIndex === undefined) return;
     const item = userItems[chosenItemIndex];
     if (!item.available) return;
     gameService.useItem(item.id).then(refreshPlayer);
   }
   function dropItem() {
-    if (!chosenItemIndex) return;
+    if (chosenItemIndex === undefined) return;
     gameService.drop(userItems[chosenItemIndex].id).then(refreshPlayer);
   }
   return (
