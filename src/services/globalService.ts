@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { requestType } from "../types/requestType";
+import { addLog } from "../hooks/useLog";
 
 export const URLPerfix = "http://127.0.0.1:4523/mock/1085790";
 export function globalRequest<T extends requestType<any>>(
@@ -13,7 +14,7 @@ export function globalRequest<T extends requestType<any>>(
   return new Promise<AxiosResponse<T>>((resolve, reject) => {
     axios(config).then((res: AxiosResponse<T>) => {
       if (!res.data.code.toString().startsWith("200")) {
-        alert(res.data.msg);
+        addLog(res.data.msg);
         reject(res.data.msg);
       } else {
         resolve(res);

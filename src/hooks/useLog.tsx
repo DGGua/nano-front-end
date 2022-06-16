@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 let subscriptions: Array<React.Dispatch<React.SetStateAction<string[]>>> = [];
 let logs = ["1", "2", "3", "4"];
-function addLog(log: string) {
+export function addLog(log: string) {
   logs = [...logs, log];
   subscriptions.forEach((subscription) => subscription(logs));
 }
