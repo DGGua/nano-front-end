@@ -4,6 +4,7 @@ import {
   HTMLAttributes,
   useState,
 } from "react";
+import usePlayerData from "../../hooks/usePlayerData";
 import { gameService } from "../../services/gameService";
 import { Item, PlayerInfo } from "../../types/itemType";
 import "./userBag.scss";
@@ -29,12 +30,8 @@ function ItemComp(props: {
   );
 }
 
-type UserBagProps = {
-  playerInfo: PlayerInfo;
-  refreshPlayer: () => void;
-};
-export function UserBag(props: UserBagProps) {
-  const { playerInfo, refreshPlayer } = props;
+export function UserBag() {
+  const { playerInfo, updatePlayerInfo } = usePlayerData();
   const {
     bearing_capacity: capacity,
     cur_weight: weight,
@@ -59,11 +56,11 @@ export function UserBag(props: UserBagProps) {
     if (chosenItemIndex === undefined) return;
     const item = userItems[chosenItemIndex];
     if (!item.available) return;
-    gameService.useItem(item.id).then(refreshPlayer);
+    gameService.useItem(item.id).then(updatePlayerInfo);
   }
   function dropItem() {
     if (chosenItemIndex === undefined) return;
-    gameService.drop(userItems[chosenItemIndex].id).then(refreshPlayer);
+    gameService.drop(userItems[chosenItemIndex].id).then(updatePlayerInfo);
   }
   return (
     <>
