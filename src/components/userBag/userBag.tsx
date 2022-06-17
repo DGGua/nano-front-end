@@ -5,7 +5,7 @@ import {
   useState,
 } from "react";
 import { useLog } from "../../hooks/useLog";
-import usePlayerData from "../../hooks/usePlayerData";
+import { usePlayerData } from "../../hooks/usePlayerData";
 import { gameService } from "../../services/gameService";
 import { Item, PlayerInfo } from "../../types/gameType";
 import "./userBag.scss";
