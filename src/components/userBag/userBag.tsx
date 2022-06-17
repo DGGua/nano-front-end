@@ -58,7 +58,10 @@ export function UserBag() {
     if (chosenItemIndex === undefined) return;
     const item = userItems[chosenItemIndex];
     if (!item.available) return;
-    gameService.useItem(item.id).then(updatePlayerInfo);
+    gameService.useItem(item.id).then((res) => {
+      updatePlayerInfo();
+      addLog(res.data.data);
+    });
   }
   function dropItem() {
     if (chosenItemIndex === undefined) return;
