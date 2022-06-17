@@ -1,14 +1,19 @@
+import dayjs, { Dayjs } from "dayjs";
 import { useEffect, useState } from "react";
+import { LogInfo } from "../types/gameType";
 
-let subscriptions: Array<React.Dispatch<React.SetStateAction<string[]>>> = [];
-let logs = ["1", "2", "3", "4"];
-export function addLog(log: string) {
-  logs = [...logs, log];
+let subscriptions: Array<React.Dispatch<React.SetStateAction<LogInfo[]>>> = [];
+let logs: LogInfo[] = [];
+export function addLog(
+  message: string,
+  level: "error" | "warn" | "info" = "info"
+) {
+  logs = [{ message, level, time: dayjs() }, ...logs];
   subscriptions.forEach((subscription) => subscription(logs));
 }
 
 export function useLog() {
-  const [_, subscription] = useState<string[]>([]);
+  const [_, subscription] = useState<LogInfo[]>([]);
   useEffect(() => {
     subscriptions.push(subscription);
     return () => {

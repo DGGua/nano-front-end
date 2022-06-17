@@ -1,11 +1,8 @@
-import { useEffect } from "react";
-import LogItem from "../components/logItem/logItem";
+import LogPanel from "../components/logPanel/logPanel";
 import { UserBag } from "../components/userBag/userBag";
 import UserModule from "../components/userModule/userModule";
-import { useLog } from "../hooks/useLog";
 import "./scss/index.scss";
 export default function IndexPage() {
-  const { logs } = useLog();
   return (
     <div className="main-frame">
       <div className="user-panel">
@@ -17,11 +14,7 @@ export default function IndexPage() {
         <UserBag />
       </div>
       <div className="main-panel">
-        <div className="log">
-          {logs.map((log) => (
-            <LogItem log={log} />
-          ))}
-        </div>
+        <LogPanel />
         <div className="choice">
           <button>123</button>
           <button>123</button>
