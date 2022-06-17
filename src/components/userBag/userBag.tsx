@@ -78,7 +78,10 @@ export function UserBag() {
     <>
       <div className="bag-buttons">
         <button
-          disabled={!chosenItemIndex || !userItems[chosenItemIndex].available}
+          disabled={
+            chosenItemIndex === undefined ||
+            !userItems[chosenItemIndex].available
+          }
           onClick={useItem}
         >
           使用

@@ -15,7 +15,7 @@ export default function UserModule() {
     const jwt = localStorage.getItem("auth");
     if (jwt) {
       const { exp, username } = jwtDecode<JWTType>(jwt);
-      if (new Date().getTime() < exp) {
+      if (new Date().getTime() > exp) {
         setLogged(true);
         setUsername(username);
       }
