@@ -62,6 +62,7 @@ export function UserBag() {
     gameService.useItem(item.id).then((res) => {
       updatePlayerInfo();
       addLog(res.data.data);
+      setChosenItemIndex(undefined);
     });
   }
   function dropItem() {
@@ -70,12 +71,18 @@ export function UserBag() {
     gameService.drop(userItems[chosenItemIndex].id).then(() => {
       updatePlayerInfo();
       addLog(`你丢下了 ${item.name}`);
+      setChosenItemIndex(undefined);
     });
   }
   return (
     <>
       <div className="bag-buttons">
-        <button onClick={useItem}>使用</button>
+        <button
+          disabled={!chosenItemIndex || !userItems[chosenItemIndex].available}
+          onClick={useItem}
+        >
+          使用
+        </button>
         <button onClick={dropItem}>丢下</button>
         <div>
           最大重量：{capacity} 当前重量：{weight}
