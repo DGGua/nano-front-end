@@ -5,7 +5,7 @@ import { usePlayerData } from "../../hooks/usePlayerData";
 import { useRoomData } from "../../hooks/useRoomData";
 import { gameService } from "../../services/gameService";
 import { Item } from "../../types/gameType";
-
+import "./buttonGroup.scss";
 export default function ButtonGroup() {
   const { roomInfo, updateRoomInfo } = useRoomData();
   const { addLog } = useLog();
@@ -39,18 +39,30 @@ export default function ButtonGroup() {
   }
   return (
     <div className="button-group">
-      {roomInfo.roomItems.map((item) => (
-        <button onClick={() => pickUpItem(item)}>{`捡起 ${item.name}`}</button>
-      ))}
-      {Object.keys(roomInfo.directions).map((direction) => (
-        <button onClick={() => goRoom(direction)}>{direction}</button>
-      ))}
-      {roomInfo.event ? <button onClick={randomRoom}>随机传送</button> : <></>}
-      <button onClick={back}>后退N步</button>
-      <input
-        value={step}
-        onChange={(event) => setStep(Number.parseInt(event.target.value))}
-      ></input>
+      <div className="group group-items">
+        {roomInfo.roomItems.map((item) => (
+          <button
+            onClick={() => pickUpItem(item)}
+          >{`捡起 ${item.name}`}</button>
+        ))}
+      </div>
+      <div className="group group-directions">
+        {Object.keys(roomInfo.directions).map((direction) => (
+          <button onClick={() => goRoom(direction)}>{direction}</button>
+        ))}
+      </div>
+      <div className="group group-events">
+        <button onClick={randomRoom} disabled={!roomInfo.event}>
+          随机传送
+        </button>
+        <div className="back-event">
+          <button onClick={back}>后退N步</button>
+          <input
+            value={step}
+            onChange={(event) => setStep(Number.parseInt(event.target.value))}
+          ></input>
+        </div>
+      </div>
     </div>
   );
 }
