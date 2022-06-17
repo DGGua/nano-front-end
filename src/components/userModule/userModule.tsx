@@ -3,12 +3,14 @@ import jwtDecode from "jwt-decode";
 import { JWTType } from "../../types/jwtType";
 import { UserService } from "../../services/userService";
 import "./userModule.scss";
+import { useLog } from "../../hooks/useLog";
 
 export default function UserModule() {
   const [logged, setLogged] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alert, setAlert] = useState("");
+  const { addLog } = useLog();
   useEffect(() => {
     const jwt = localStorage.getItem("auth");
     if (jwt) {
@@ -26,7 +28,7 @@ export default function UserModule() {
         localStorage.setItem("auth", data);
         window.location.reload();
       } else {
-        setAlert(msg);
+        addLog(msg, "error");
       }
     });
   };
@@ -35,7 +37,7 @@ export default function UserModule() {
       if (code === 200200) {
         login();
       } else {
-        setAlert(msg);
+        addLog(msg, "error");
       }
     });
   };
