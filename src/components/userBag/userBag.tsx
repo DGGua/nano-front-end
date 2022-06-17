@@ -8,6 +8,7 @@ import { useLog } from "../../hooks/useLog";
 import { usePlayerData } from "../../hooks/usePlayerData";
 import { gameService } from "../../services/gameService";
 import { Item, PlayerInfo } from "../../types/gameType";
+import ItemInfoPanel from "../itemInfoPanel/itemInfoPanel";
 import "./userBag.scss";
 
 function ItemComp(props: {
@@ -39,19 +40,19 @@ export function UserBag() {
     cur_weight: weight,
     userItems,
   } = playerInfo;
-  const [x, setX] = useState<string>("");
-  const [y, setY] = useState<string>("");
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
   const [show, setShow] = useState<boolean>(false);
-  const [showText, setShowText] = useState("");
+  const [showItem, setShowItem] = useState<Item>();
   const [chosenItemIndex, setChosenItemIndex] = useState<number>();
   function mouseEnter(
     event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
     index: number
   ) {
-    setX(event.clientX + 5 + "px");
-    setY(event.clientY + 5 + "px");
+    setX(event.clientX + 5);
+    setY(event.clientY + 5);
     setShow(true);
-    setShowText(userItems[index].name);
+    setShowItem(userItems[index]);
   }
 
   function useItem() {
@@ -95,20 +96,14 @@ export function UserBag() {
         })}
       </div>
 
-      <div
-        className="toast"
-        style={{
-          left: x,
-          top: y,
-          display: show ? "block" : "none",
-        }}
-        onMouseEnter={() => setShow(true)}
+      <ItemInfoPanel item={showItem} x={x} y={y} show={show} />
+        {/* onMouseEnter={() => setShow(true)}
         onMouseLeave={() => {
           setShow(false);
         }}
       >
         {showText}
-      </div>
+      </div> */}
     </>
   );
 }
