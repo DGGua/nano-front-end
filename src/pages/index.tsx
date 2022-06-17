@@ -1,3 +1,4 @@
+import ButtonGroup from "../components/buttonGroup/buttonGroup";
 import LogPanel from "../components/logPanel/logPanel";
 import { UserBag } from "../components/userBag/userBag";
 import UserModule from "../components/userModule/userModule";
@@ -15,14 +16,7 @@ export default function IndexPage() {
       </div>
       <div className="main-panel">
         <LogPanel />
-        <div className="choice">
-          <button>123</button>
-          <button>123</button>
-          <button>123</button>
-          <button>123</button>
-          <button>123</button>
-          <button>123</button>
-        </div>
+        <ButtonGroup />
       </div>
     </div>
   );
