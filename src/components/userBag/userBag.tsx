@@ -100,13 +100,6 @@ export function UserBag() {
       </div>
 
       <ItemInfoPanel item={showItem} x={x} y={y} show={show} />
-        {/* onMouseEnter={() => setShow(true)}
-        onMouseLeave={() => {
-          setShow(false);
-        }}
-      >
-        {showText}
-      </div> */}
     </>
   );
 }

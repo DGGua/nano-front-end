@@ -1,16 +1,24 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { servicesVersion, setTokenSourceMapRange } from "typescript";
 import { useLog } from "../../hooks/useLog";
 import { usePlayerData } from "../../hooks/usePlayerData";
 import { useRoomData } from "../../hooks/useRoomData";
 import { gameService } from "../../services/gameService";
 import { Item } from "../../types/gameType";
+import ItemInfoPanel from "../itemInfoPanel/itemInfoPanel";
 import "./buttonGroup.scss";
 export default function ButtonGroup() {
   const { roomInfo, updateRoomInfo } = useRoomData();
   const { addLog } = useLog();
   const { playerInfo, updatePlayerInfo } = usePlayerData();
   const [step, setStep] = useState(1);
+
+  const [x, setX] = useState<number>(0);
+  const [y, setY] = useState<number>(0);
+  const [show, setShow] = useState<boolean>(false);
+  const [showItem, setShowItem] = useState<Item>();
+  const panelRef = useRef<HTMLDivElement>(null);
+
   async function pickUpItem(item: Item) {
     if (playerInfo.bearing_capacity - playerInfo.cur_weight < item.weight) {
       addLog(`你尝试捡起 ${item.name}，但他太沉了，你失败了`);
@@ -37,12 +45,35 @@ export default function ButtonGroup() {
     await gameService.back(step);
     updateRoomInfo();
   }
+
+  function mouseEnter(
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    item: Item
+  ) {
+    console.log(panelRef.current?.offsetHeight);
+    setX(event.clientX + 5);
+    setShow(true);
+    setShowItem(item);
+    setTimeout(() => {
+      setY(event.clientY - 10 - (panelRef.current?.offsetHeight || 0));
+    });
+  }
+  useEffect(() => {
+    const interval = setInterval(() => {
+      console.log(panelRef.current?.offsetHeight);
+    }, 1000);
+    return () => clearInterval(interval);
+  });
   return (
     <div className="button-group">
       <div className="group group-items">
         {roomInfo.roomItems.map((item) => (
           <button
             onClick={() => pickUpItem(item)}
+            onMouseEnter={(event) => mouseEnter(event, item)}
+            onMouseLeave={() => {
+              setShow(false);
+            }}
           >{`捡起 ${item.name}`}</button>
         ))}
       </div>
@@ -63,6 +94,7 @@ export default function ButtonGroup() {
           ></input>
         </div>
       </div>
+      <ItemInfoPanel item={showItem} x={x} y={y} show={show} ref={panelRef} />
     </div>
   );
 }
