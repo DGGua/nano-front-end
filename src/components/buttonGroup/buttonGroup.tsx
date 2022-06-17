@@ -52,18 +52,12 @@ export default function ButtonGroup() {
   ) {
     console.log(panelRef.current?.offsetHeight);
     setX(event.clientX + 5);
-    setShow(true);
     setShowItem(item);
     setTimeout(() => {
       setY(event.clientY - 10 - (panelRef.current?.offsetHeight || 0));
+      setShow(true);
     });
   }
-  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log(panelRef.current?.offsetHeight);
-    }, 1000);
-    return () => clearInterval(interval);
-  });
   return (
     <div className="button-group">
       <div className="group group-items">
