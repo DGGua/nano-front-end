@@ -1,0 +1,18 @@
+.button-group {
+  display: flex;
+  .group {
+    width: 33%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+  .group-events {
+    flex-direction: column;
+    .back-event {
+      display: flex;
+      input {
+        width: 5em;
+      }
+    }
+  }
+}
