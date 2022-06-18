@@ -1,5 +1,4 @@
 import { List } from "antd";
-import Item from "antd/lib/list/Item";
 import { useLog } from "../../hooks/useLog";
 import LogItem from "../logItem/logItem";
 import "./logPanel.scss";

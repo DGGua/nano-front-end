@@ -1,17 +1,30 @@
 .button-group {
   display: flex;
+  height: 100%;
+  .divider {
+    border: 0.5px solid #d0d0d0;
+    margin: 0 1em;
+  }
   .group {
     width: 33%;
     display: flex;
     flex-wrap: wrap;
     gap: 1em;
+    overflow-y: scroll;
+    overflow-x: unset;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
   }
   .group-events {
     flex-direction: column;
     .back-event {
       display: flex;
+      width: 100%;
+      gap: 8px;
       input {
-        width: 5em;
+        flex-grow: 1;
+        flex-shrink: 1;
       }
     }
   }

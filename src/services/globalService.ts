@@ -2,8 +2,8 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { requestType } from "../types/requestType";
 import { addLog } from "../hooks/useLog";
 
-// export const URLPerfix = "http://127.0.0.1:4523/mock/1085790";
-export const URLPerfix = "http://121.43.173.31:8080/zuul";
+export const URLPerfix = "http://127.0.0.1:4523/mock/1085790";
+// export const URLPerfix = "http://121.43.173.31:8080/zuul";
 export function globalRequest<T extends requestType<any>>(
     config: AxiosRequestConfig<T>
 ) {

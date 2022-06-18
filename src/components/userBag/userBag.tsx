@@ -16,20 +16,7 @@ export function UserBag() {
     cur_weight: weight,
     userItems,
   } = playerInfo;
-  const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0);
-  const [show, setShow] = useState<boolean>(false);
-  const [showItem, setShowItem] = useState<Item>();
   const [chosenItemIndex, setChosenItemIndex] = useState<number>();
-  function mouseEnter(
-    event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-    index: number
-  ) {
-    setX(event.clientX + 5);
-    setY(event.clientY + 5);
-    setShow(true);
-    setShowItem(userItems[index]);
-  }
 
   function useItem() {
     if (chosenItemIndex === undefined) return;
@@ -104,7 +91,6 @@ export function UserBag() {
           </Popover>
         )}
       />
-      <ItemInfoPanel item={showItem} x={x} y={y} show={show} />
     </div>
   );
 }
