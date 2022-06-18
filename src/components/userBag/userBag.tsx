@@ -1,37 +1,12 @@
-import {
-  DetailedHTMLProps,
-  DOMAttributes,
-  HTMLAttributes,
-  useState,
-} from "react";
+import { Button, List, Popover, Typography } from "antd";
+import { useState } from "react";
 import { useLog } from "../../hooks/useLog";
 import { usePlayerData } from "../../hooks/usePlayerData";
 import { updateRoomInfo } from "../../hooks/useRoomData";
 import { gameService } from "../../services/gameService";
-import { Item, PlayerInfo } from "../../types/gameType";
+import { Item } from "../../types/gameType";
 import ItemInfoPanel from "../itemInfoPanel/itemInfoPanel";
 import "./userBag.scss";
-
-function ItemComp(props: {
-  item: Item;
-  className: string;
-  onClick: React.MouseEventHandler<HTMLDivElement>;
-  onMouseEnter: React.MouseEventHandler<HTMLDivElement>;
-  onMouseLeave: React.MouseEventHandler<HTMLDivElement>;
-}) {
-  const { item, className, onClick, onMouseEnter, onMouseLeave } = props;
-  return (
-    <div
-      className={"bag-item " + className}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <span>{item.name}</span>
-      <span>{`重量：${item.weight}`}</span>
-    </div>
-  );
-}
 
 export function UserBag() {
   const { addLog } = useLog();
@@ -41,20 +16,7 @@ export function UserBag() {
     cur_weight: weight,
     userItems,
   } = playerInfo;
-  const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0);
-  const [show, setShow] = useState<boolean>(false);
-  const [showItem, setShowItem] = useState<Item>();
   const [chosenItemIndex, setChosenItemIndex] = useState<number>();
-  function mouseEnter(
-    event: React.MouseEvent<HTMLParagraphElement, MouseEvent>,
-    index: number
-  ) {
-    setX(event.clientX + 5);
-    setY(event.clientY + 5);
-    setShow(true);
-    setShowItem(userItems[index]);
-  }
 
   function useItem() {
     if (chosenItemIndex === undefined) return;
@@ -77,41 +39,58 @@ export function UserBag() {
     });
   }
   return (
-    <>
+    <div className="user-bag">
       <div className="bag-buttons">
-        <button
+        <Button
+          type="primary"
           disabled={
             chosenItemIndex === undefined ||
             !userItems[chosenItemIndex].available
           }
+          block
           onClick={useItem}
         >
           使用
-        </button>
-        <button onClick={dropItem}>丢下</button>
-        <div>
-          最大重量：{capacity} 当前重量：{weight}
-        </div>
+        </Button>
+        <Button
+          disabled={chosenItemIndex === undefined}
+          block
+          onClick={dropItem}
+        >
+          丢下
+        </Button>
       </div>
-      <div className="bag-list" onScroll={() => setShow(false)}>
-        {userItems.map((item, index) => {
-          return (
-            <ItemComp
-              item={item}
+      <Typography.Title level={4}>
+        负重：{weight} / {capacity}
+      </Typography.Title>
+      <List
+        className="bag-list"
+        locale={{ emptyText: "你的背包空无一物" }}
+        dataSource={userItems}
+        renderItem={(item, index) => (
+          <Popover
+            placement="right"
+            title={<Typography.Title level={5}>{item.name}</Typography.Title>}
+            content={
+              <div>
+                <Typography.Paragraph>重量：{item.weight}</Typography.Paragraph>
+                {item.available ? (
+                  <Typography.Paragraph italic>可使用</Typography.Paragraph>
+                ) : null}
+              </div>
+            }
+            trigger="hover"
+          >
+            <List.Item
+              key={index}
               className={`${index === chosenItemIndex ? "chosen" : ""}`}
-              onClick={() => {
-                setChosenItemIndex(index);
-              }}
-              onMouseEnter={(event) => mouseEnter(event, index)}
-              onMouseLeave={() => {
-                setShow(false);
-              }}
-            ></ItemComp>
-          );
-        })}
-      </div>
-
-      <ItemInfoPanel item={showItem} x={x} y={y} show={show} />
-    </>
+              onClick={() => setChosenItemIndex(index)}
+            >
+              {item.name}
+            </List.Item>
+          </Popover>
+        )}
+      />
+    </div>
   );
 }

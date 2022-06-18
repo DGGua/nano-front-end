@@ -1,3 +1,4 @@
+import { Layout } from "antd";
 import ButtonGroup from "../components/buttonGroup/buttonGroup";
 import LogPanel from "../components/logPanel/logPanel";
 import { UserBag } from "../components/userBag/userBag";
@@ -6,14 +7,19 @@ import "./scss/index.scss";
 export default function IndexPage() {
   return (
     <div className="main-frame">
-      <div className="user-panel">
-        <UserModule />
-        <UserBag />
-      </div>
-      <div className="main-panel">
+      <Layout.Sider className="user-panel" theme="light" width={250}>
+        <div className="user-panel-inner">
+          <UserModule />
+          <hr />
+          <UserBag />
+        </div>
+      </Layout.Sider>
+      <Layout.Content className="main-panel">
         <LogPanel />
-        <ButtonGroup />
-      </div>
+        <Layout.Footer>
+          <ButtonGroup />
+        </Layout.Footer>
+      </Layout.Content>
     </div>
   );
 }

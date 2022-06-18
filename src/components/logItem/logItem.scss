@@ -1,0 +1,6 @@
+.log-item {
+  margin: 0.5em 2em;
+  &.log-error {
+    color: red;
+  }
+}

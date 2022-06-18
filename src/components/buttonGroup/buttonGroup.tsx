@@ -1,5 +1,5 @@
+import { Button, Divider, Input, InputNumber, Popover, Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
-import { servicesVersion, setTokenSourceMapRange } from "typescript";
 import { useLog } from "../../hooks/useLog";
 import { usePlayerData } from "../../hooks/usePlayerData";
 import { useRoomData } from "../../hooks/useRoomData";
@@ -13,10 +13,6 @@ export default function ButtonGroup() {
   const { playerInfo, updatePlayerInfo } = usePlayerData();
   const [step, setStep] = useState(1);
 
-  const [x, setX] = useState<number>(0);
-  const [y, setY] = useState<number>(0);
-  const [show, setShow] = useState<boolean>(false);
-  const [showItem, setShowItem] = useState<Item>();
   const panelRef = useRef<HTMLDivElement>(null);
 
   async function pickUpItem(item: Item) {
@@ -29,7 +25,6 @@ export default function ButtonGroup() {
     addLog(`你捡起了 ${name}`);
     updateRoomInfo();
     updatePlayerInfo();
-    setShow(false);
   }
 
   async function goRoom(direction: string) {
@@ -47,49 +42,50 @@ export default function ButtonGroup() {
     updateRoomInfo();
   }
 
-  function mouseEnter(
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    item: Item
-  ) {
-    console.log(panelRef.current?.offsetHeight);
-    setX(event.clientX + 5);
-    setShowItem(item);
-    setTimeout(() => {
-      setY(event.clientY - 10 - (panelRef.current?.offsetHeight || 0));
-      setShow(true);
-    });
-  }
   return (
     <div className="button-group">
       <div className="group group-items">
         {roomInfo.roomItems.map((item) => (
-          <button
-            onClick={() => pickUpItem(item)}
-            onMouseEnter={(event) => mouseEnter(event, item)}
-            onMouseLeave={() => {
-              setShow(false);
-            }}
-          >{`捡起 ${item.name}`}</button>
+          <Popover
+            placement="top"
+            title={<Typography.Title level={5}>{item.name}</Typography.Title>}
+            content={
+              <div>
+                <Typography.Paragraph>重量：{item.weight}</Typography.Paragraph>
+                {item.available ? (
+                  <Typography.Paragraph italic>可使用</Typography.Paragraph>
+                ) : null}
+              </div>
+            }
+            trigger="hover"
+          >
+            <Button
+              onClick={() => pickUpItem(item)}
+            >{`捡起 ${item.name}`}</Button>
+          </Popover>
         ))}
       </div>
+      <div className="divider" />
       <div className="group group-directions">
         {Object.keys(roomInfo.directions).map((direction) => (
-          <button onClick={() => goRoom(direction)}>{direction}</button>
+          <Button onClick={() => goRoom(direction)}>{direction}</Button>
         ))}
       </div>
+      <div className="divider" />
       <div className="group group-events">
-        <button onClick={randomRoom} disabled={!roomInfo.event}>
+        <Button
+          type="primary"
+          block
+          onClick={() => randomRoom}
+          disabled={!roomInfo.event}
+        >
           随机传送
-        </button>
+        </Button>
         <div className="back-event">
-          <button onClick={back}>后退N步</button>
-          <input
-            value={step}
-            onChange={(event) => setStep(Number.parseInt(event.target.value))}
-          ></input>
+          <Button onClick={back}>后退N步</Button>
+          <InputNumber value={step} onChange={setStep}></InputNumber>
         </div>
       </div>
-      <ItemInfoPanel item={showItem} x={x} y={y} show={show} ref={panelRef} />
     </div>
   );
 }
