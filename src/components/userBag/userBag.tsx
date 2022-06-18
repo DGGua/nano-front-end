@@ -1,15 +1,10 @@
 import { Button, List, Popover, Typography } from "antd";
-import {
-  DetailedHTMLProps,
-  DOMAttributes,
-  HTMLAttributes,
-  useState,
-} from "react";
+import { useState } from "react";
 import { useLog } from "../../hooks/useLog";
 import { usePlayerData } from "../../hooks/usePlayerData";
 import { updateRoomInfo } from "../../hooks/useRoomData";
 import { gameService } from "../../services/gameService";
-import { Item, PlayerInfo } from "../../types/gameType";
+import { Item } from "../../types/gameType";
 import ItemInfoPanel from "../itemInfoPanel/itemInfoPanel";
 import "./userBag.scss";
 
