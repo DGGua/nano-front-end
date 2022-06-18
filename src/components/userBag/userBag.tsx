@@ -6,6 +6,7 @@ import {
 } from "react";
 import { useLog } from "../../hooks/useLog";
 import { usePlayerData } from "../../hooks/usePlayerData";
+import { updateRoomInfo } from "../../hooks/useRoomData";
 import { gameService } from "../../services/gameService";
 import { Item, PlayerInfo } from "../../types/gameType";
 import ItemInfoPanel from "../itemInfoPanel/itemInfoPanel";
@@ -70,6 +71,7 @@ export function UserBag() {
     const item = userItems[chosenItemIndex];
     gameService.drop(userItems[chosenItemIndex].id).then(() => {
       updatePlayerInfo();
+      updateRoomInfo();
       addLog(`你丢下了 ${item.name}`);
       setChosenItemIndex(undefined);
     });
