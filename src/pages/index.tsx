@@ -7,10 +7,6 @@ export default function IndexPage() {
   return (
     <div className="main-frame">
       <div className="user-panel">
-        <div className="user-avatar">
-          <img src="https://via.placeholder.com/150" alt="" />
-        </div>
-        <div className="user-name"> NickName</div>
         <UserModule />
         <UserBag />
       </div>
