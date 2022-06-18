@@ -4,6 +4,7 @@ import { JWTType } from "../../types/jwtType";
 import { UserService } from "../../services/userService";
 import "./userModule.scss";
 import { useLog } from "../../hooks/useLog";
+import { gameService } from "../../services/gameService";
 
 export default function UserModule() {
   const [logged, setLogged] = useState(false);
@@ -15,10 +16,10 @@ export default function UserModule() {
     const jwt = localStorage.getItem("auth");
     if (jwt) {
       const { exp, username } = jwtDecode<JWTType>(jwt);
-      if (new Date().getTime() > exp) {
+      gameService.curPlayerInfo().then(() => {
         setLogged(true);
         setUsername(username);
-      }
+      });
     }
   }, []);
 
@@ -43,7 +44,7 @@ export default function UserModule() {
   };
 
   if (logged) {
-    return <div className="username">{username}</div>;
+    return <h2 className="username">{username}</h2>;
   } else {
     return (
       <div className="form">

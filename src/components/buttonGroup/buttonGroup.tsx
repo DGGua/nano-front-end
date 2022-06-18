@@ -29,6 +29,7 @@ export default function ButtonGroup() {
     addLog(`你捡起了 ${name}`);
     updateRoomInfo();
     updatePlayerInfo();
+    setShow(false);
   }
 
   async function goRoom(direction: string) {
