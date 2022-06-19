@@ -76,7 +76,7 @@ export default function ButtonGroup() {
         <Button
           type="primary"
           block
-          onClick={() => randomRoom}
+          onClick={randomRoom}
           disabled={!roomInfo.event}
         >
           随机传送
